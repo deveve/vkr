@@ -9,5 +9,5 @@ git clone $gitlink
 
 docker build . -t newnodejs
 
-docker run -p 8080:8080 -d dev/nodejs
+docker run -p 8080:8080 -d newnodejs
 
