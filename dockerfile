@@ -1,20 +1,19 @@
-# Загрузить базовый образ
-FROM node:12-alpine
+FROM node:12
 
-# Скопировать файлы из текущей директории в директорию app/
-COPY . app/
+# создание директории приложения
+WORKDIR /usr/src/app
 
-# Использовать app/ в роли рабочей директории
-WORKDIR app/
+# установка зависимостей
+# символ астериск ("*") используется для того чтобы по возможности
+# скопировать оба файла: package.json и package-lock.json
+COPY package*.json ./
 
-# Установить зависимости (команда npm ci похожа npm i, но используется для автоматизированных сборок)
-RUN npm ci --only-production
+RUN npm install
+# Если вы создаете сборку для продакшн
+# RUN npm ci --omit=dev
 
-# Собрать клиентское React-приложение для продакшна
-RUN npm run build
+# копируем исходный код
+COPY . .
 
-# Прослушивать указанный порт
-EXPOSE 5000
-
-# Запустить Node-сервер
-ENTRYPOINT npm run start
+EXPOSE 8080
+CMD [ "node", "server.js" ]

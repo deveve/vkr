@@ -1,13 +1,13 @@
 #!/bin/sh
 set -e # Остановить скрипт при наличии ошибок
 
-IMAGE="<username>/<repository>"                             # Образ Docker
-GIT_VERSION=$(git describe --always --abbrev --tags --long) # Git-хэш и теги
+#Берем ссылку на репозиторий
+read -p "Вставьте ссылку на Git repo" gitlink 
 
-# Сборка и тегирование образа
-docker build -t ${IMAGE}:${GIT_VERSION} .
-docker tag ${IMAGE}:${GIT_VERSION} ${IMAGE}:latest
+#Качаем репозиторий
+git clone $gitlink 
 
-# Вход в Docker Hub и выгрузка образа
-echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-docker push ${IMAGE}:${GIT_VERSION}
+docker build . -t newnodejs
+
+docker run -p 8080:8080 -d dev/nodejs
+
