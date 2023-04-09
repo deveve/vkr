@@ -18,7 +18,7 @@ cd $name/$path
 docker build . -t $name 
 docker tag $name localhost:5000/$name
 docker push localhost:5000/$name
-docker service create --name $name --with-registry-auth --replicas $replicas localhost:5000/$name
+docker service create --name $name -p $port:$port_cont --with-registry-auth --replicas $replicas localhost:5000/$name
 #docker volume create $name
 #docker run --rm -p $port:$port_cont -d --name $name $name
 
