@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e # Остановить скрипт при наличии ошибок
 
-read -p "Введите имя контейнера: " name
+read -p "Введите имя контейнера, который нужно удалить: " name
 
-docker stop $name
-docker rm $name
+docker service rm $name

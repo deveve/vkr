@@ -10,9 +10,9 @@ read -p "Введите кол-во реплик от 1 до 3: " replicas
 
 #Качаем репозиторий
 git clone $gitlink $name
-
+#Копируем докерфайл в директорию с проектом
 cp dockerfile $name/$path
-
+#Переходим в директорию проекта
 cd $name/$path
 
 docker build . -t $name 
