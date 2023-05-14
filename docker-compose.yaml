@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  node:
+    image: 192.168.0.102:5000/$image_id$
+    ports:
+      - "$outside_port$:$inside_port$"
+    environment:
+      TZ: "Europe/Moscow"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    command: make server_start
+    volumes:
+      - /p/ptm/config/config.yaml:/p/ptm/config/config.yaml
+      - /p/ptm/stat/web:/p/ptm/stat/web

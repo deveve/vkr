@@ -1,0 +1,1 @@
+docker service update --image docker-registry.ru:5000/ptm:stage stage;
