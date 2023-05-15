@@ -1,8 +1,8 @@
 server {
-    listen        _port_;
+    listen        80;
     server_name _port_.orch.ishkov.su;
     location / {
-        proxy_pass         http://backend;
+        proxy_pass         http://backend__port_;
         proxy_http_version 1.1;
         proxy_set_header   Upgrade $http_upgrade;
         proxy_set_header   Connection keep-alive;

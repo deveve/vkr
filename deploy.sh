@@ -23,8 +23,10 @@ docker service create --name $name -p $port:$port_cont --with-registry-auth --re
 #docker run --rm -p $port:$port_cont -d --name $name $name
 
 #config nginx
-cp ~/vkr/nginxex /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
+cp /vkr/vkr/nginxex /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
+cp /vkr/vkr/upstream /etc/nginx/conf.d/backend_$port.conf
 sed -i 's/_port_/'$port'/' /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
+sed -i 's/_port_/'$port'/' /etc/nginx/conf.d/backend_$port.conf
 nginx -s reload
 
 

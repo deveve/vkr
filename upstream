@@ -1,0 +1,5 @@
+upstream backend__prot_ {
+    server 192.168.0.102:_port_;
+    server 192.168.0.103:_port_;
+    server 192.168.0.104:_port_;
+}
