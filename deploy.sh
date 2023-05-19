@@ -1,28 +1,30 @@
 #!/bin/sh
 set -e # Остановить скрипт при наличии ошибок
 
-read -p "Вставьте ссылку на Git repo: " gitlink
-read -p "Введите номер порта: " port 
-read -p "Введите номер порта внутри контейнера: " port_cont
-read -p "Введите имя контейнера: " name
-read -p "Введите папку с проектом внутри Git: " path
-read -p "Введите кол-во реплик от 1 до 3: " replicas
+gitlink=$1 #ссылка на Git repo
+port=$2 #номер порта port
+port_cont=$3 #номер порта внутри контейнера
+replicas=$4 #кол-во реплик
+path=$5 #папка с проектом внутри Git
+
 
 #Качаем репозиторий
-git clone $gitlink $name
+git clone $gitlink $port
 #Копируем докерфайл в директорию с проектом
-cp dockerfile $name/$path
+cp dockerfile $port/$path
+cp .dockerignore $port/$path
 #Переходим в директорию проекта
-cd $name/$path
+cd $port/$path
+#Собираем контейнер
+docker build . -t $port 
+#Создаем образ
+docker tag $port localhost:5000/$port
+#Заливаем образ в Docker Registry
+docker push localhost:5000/$port
+#Деплоим сервис в Swarm
+docker service create --port $port -p $port:$port_cont --with-registry-auth --replicas $replicas 192.168.0.102:5000/$port
 
-docker build . -t $name 
-docker tag $name localhost:5000/$name
-docker push localhost:5000/$name
-docker service create --name $name -p $port:$port_cont --with-registry-auth --replicas $replicas 192.168.0.102:5000/$name
-#docker volume create $name
-#docker run --rm -p $port:$port_cont -d --name $name $name
-
-#config nginx
+#Делаем доступ к сервису по домену
 cp /vkr/nginxex /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
 cp /vkr/upstream /etc/nginx/conf.d/backend_$port.conf
 sed -i 's/%port%/'$port'/' /etc/nginx/sites-enabled/$port.orch.ishkov.su.config

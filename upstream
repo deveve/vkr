@@ -1,4 +1,4 @@
-upstream backend_%prot% {
+upstream backend_%port% {
     server 192.168.0.102:%port%;
     server 192.168.0.103:%port%;
     server 192.168.0.104:%port%;
