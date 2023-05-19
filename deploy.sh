@@ -22,7 +22,7 @@ docker tag $port localhost:5000/$port
 #Заливаем образ в Docker Registry
 docker push localhost:5000/$port
 #Деплоим сервис в Swarm
-docker service create --port $port -p $port:$port_cont --with-registry-auth --replicas $replicas 192.168.0.102:5000/$port
+docker service create --name $port -p $port:$port_cont --with-registry-auth --replicas $replicas 192.168.0.102:5000/$port
 
 #Делаем доступ к сервису по домену
 cp /vkr/nginxex /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
