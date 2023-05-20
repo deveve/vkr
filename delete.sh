@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e # Остановить скрипт при наличии ошибок
 
-read -p "Введите имя контейнера, который нужно удалить: " name
-
-docker service rm $name
+docker service rm $1
+rm -rf /vkr/$1
+rm -rf /etc/nginx/sites-enabled/$1.orch.ishkov.su.config
+rm -rf /etc/nginx/conf.d/backend_$1.conf

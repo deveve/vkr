@@ -31,4 +31,4 @@ sed -i 's/%port%/'$port'/' /etc/nginx/sites-enabled/$port.orch.ishkov.su.config
 sed -i 's/%port%/'$port'/' /etc/nginx/conf.d/backend_$port.conf
 nginx -s reload
 
-
+echo "Сервис доступен по адерсу '$port'.orch.ishkov.su"
